@@ -20,7 +20,8 @@ $(document).ready(function () {
                            
                               <td>
                                   <button type="button" class="btn btn-warning btn-sm edit" data-id="`+item._id+`">Edit</button>
-                                  <button type="button" class="btn btn-danger btn-sm delete" data-id="`+item._id+`">Delete</button>
+                                  <button type="button" class="btn btn-danger btn-sm delete" data-makhachhang="` + item.cMaKhachHang + `"  data-taikhoan="` + item.cTaiKhoan + `">Delete</button>
+                                  <button type="button" class="btn btn-success btn-sm delete" data-id="`+item._id+`">Detail</button>
                               </td>
                           </tr>
                       `;
@@ -31,5 +32,29 @@ $(document).ready(function () {
           }
       });
   };
+   $(document).on('click', '.delete', function(){
+    var taikhoan = $(this).data('taikhoan'); // Lấy giá trị của thuộc tính 'taikhoan'
+    var maKhachHang = $(this).data('makhachhang'); // Lấy giá trị của thuộc tính 'makhachhang'
+
+    // Gán giá trị vào biến tạm thời
+    const cTaiKhoan = taikhoan;
+    const cMaKhachHang = maKhachHang;
+
+    console.log(cTaiKhoan + '/' + cMaKhachHang);
+
+    if (confirm("Are you sure you want to delete this data?")) {
+        $.ajax({
+            url: "http://localhost:3001/danhmuctaikhoancongnokhachhang/deletetaikhoancongno/" + cMaKhachHang + "/" + cTaiKhoan,
+            method: "DELETE",
+            success: function() {
+                alert("Delete Successfully!");
+                load_data();
+            },
+            error: function() {
+                alert("Error deleting data.");
+            }
+        });
+    }
+});
 })
 
